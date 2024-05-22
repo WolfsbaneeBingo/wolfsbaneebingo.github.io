@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Text Bingo Card with Timer</title>
+<title>Wolfsbanee Bingo</title>
 <style>
   body {
     font-family: 'Arial', sans-serif;
@@ -26,15 +26,15 @@
     background-color: #fff;
     transition: background-color 0.3s;
     font-size: 18px;
-    height: 140px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
   }
   .bingo-cell.crossed {
-    background-color: #ffcccb;
-    text-decoration: line-through;
+	color: #9C9B9B;
+    background-color: #E189F9;
   }
   #newGameBtn {
     background-color: #4CAF50;
@@ -61,9 +61,8 @@
 </style>
 </head>
 <body>
-
 <div>
-  <h2>Interactive Text Bingo Card</h2>
+  <h2><a href="https://www.twitch.tv/wolfsbanee">Wolfsbanee</a> Bingo</h2>
   <div id="bingoCard" class="bingo-card"></div>
 </div>
 
@@ -72,97 +71,6 @@
   <div id="winMessage">You Win!</div>
   <div id="timer">Time: <span id="time">0</span> seconds</div>
 </div>
-
-<script>
-// Array of words to use on the bingo card
-const bingoWords = [
-  // ... (same as before)
-];
-
-// Function to shuffle an array
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
-// Timer variables
-let timerInterval;
-let secondsElapsed = 0;
-let gameWon = false;
-
-// Function to start the timer
-function startTimer() {
-  clearInterval(timerInterval); // Clear any existing intervals
-  secondsElapsed = 0;
-  timerInterval = setInterval(() => {
-    if (!gameWon) {
-      secondsElapsed++;
-      document.getElementById('time').textContent = secondsElapsed;
-    }
-  }, 1000);
-}
-
-// Function to check for a win
-function checkForWin() {
-  const rows = Array.from({ length: 5 }, (_, i) =>
-    Array.from(document.querySelectorAll(`.row-${i}`))
-  );
-  const cols = Array.from({ length: 5 }, (_, i) =>
-    Array.from(document.querySelectorAll(`.col-${i}`))
-  );
-
-  const lines = [...rows, ...cols];
-  return lines.some(line => line.every(cell => cell.classList.contains('crossed')));
-}
-
-// Function to handle cell click
-function handleCellClick(event) {
-  if (!gameWon) {
-    event.target.classList.toggle('crossed');
-    if (checkForWin()) {
-      gameWon = true;
-      document.getElementById('winMessage').style.display = 'block';
-      clearInterval(timerInterval); // Stop the timer
-    }
-  }
-}
-
-// Function to generate the bingo card
-function generateBingoCard() {
-  const cardSize = 25; // 5x5 Bingo card
-  let cardWords = [...bingoWords];
-  shuffle(cardWords);
-  cardWords = cardWords.slice(0, cardSize); // Get only the number of words we need
-  cardWords[12] = "FREE SPACE"; // Center space is a free space
-
-  const bingoCardElement = document.getElementById('bingoCard');
-  bingoCardElement.innerHTML = ''; // Clear previous card
-
-  // Create bingo cells
-  cardWords.forEach((word, index) => {
-    const cell = document.createElement('div');
-    cell.textContent = word;
-    cell.classList.add('bingo-cell', `row-${Math.floor(index / 5)}`, `col-${index % 5}`);
-    cell.addEventListener('click', handleCellClick);
-    bingoCardElement.appendChild(cell);
-  });
-}
-
-// Function to reset the game
-function resetGame() {
-  document.getElementById('winMessage').style.display = 'none';
-  generateBingoCard();
-  startTimer();
-}
-
-// Add event listener to the new game button
-document.getElementById('newGameBtn').addEventListener('click', resetGame);
-
-// Generate the card when the script loads
-resetGame(); // This will also start the timer
-</script>
-
+<script src="js/script.js"></script>
 </body>
 </html>
