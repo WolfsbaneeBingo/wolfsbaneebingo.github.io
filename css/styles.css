@@ -1,0 +1,117 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+:root {
+  --text-color: #f4f4f4;
+  --background-color: #333;
+  --invert-text-color: #333;
+  --invert-background-color: #f4f4f4;
+}
+
+.light-theme {
+  --text-color: #333;
+  --background-color: #f4f4f4;
+  --invert-text-color: #f4f4f4;
+  --invert-background-color: #333;
+}
+
+body {
+	color: var(--text-color);
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+h2 {
+  font-size: 40px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.bingo-card {
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  grid-gap: 10px;
+  margin-right: 20px;
+}
+
+.bingo-cell {
+  border: 2px solid var(--invert-background-color);
+  padding: 20px;
+  cursor: pointer;
+  background-color: var(--background-color);
+  transition: background-color 0.3s;
+  font-size: 18px;
+  font-weight: bold;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.bingo-cell img {
+  width: 100%;
+  height: 100%;
+}
+
+.bingo-cell.crossed {
+  color: #771593;
+  background-color: #9D63AF;
+}
+
+#newGameBtn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+#themeButton {
+background-color: var(--invert-background-color);
+color: var(--invert-text-color);
+  border: none;
+  margin-top: 20px;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+#newGameBtn:hover {
+  background-color: #45a049;
+}
+
+#winMessage {
+  display: none;
+  font-size: 24px;
+  color: green;
+  margin-top: 20px;
+}
+
+#timer {
+  font-size: 20px;
+  margin-top: 20px;
+}

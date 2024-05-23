@@ -4,73 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wolfsbanee Bingo</title>
-<style>
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .bingo-card {
-    display: grid;
-    grid-template-columns: repeat(5, 140px);
-    grid-gap: 10px;
-    margin-right: 20px;
-  }
-  .bingo-cell {
-    border: 2px solid #333;
-    padding: 20px;
-    cursor: pointer;
-    background-color: #fff;
-    transition: background-color 0.3s;
-    font-size: 18px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-  }
-  .bingo-cell.crossed {
-	color: #9C9B9B;
-    background-color: #E189F9;
-  }
-  #newGameBtn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 10px;
-  }
-  #winMessage {
-    display: none;
-    font-size: 24px;
-    color: green;
-    margin-top: 20px;
-  }
-  #timer {
-    font-size: 20px;
-    margin-top: 20px;
-  }
-</style>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-<div>
-  <h2><a href="https://www.twitch.tv/wolfsbanee">Wolfsbanee</a> Bingo</h2>
+<div class="container">
+  <h2>Wolfsbanee Bingo</h2>
   <div id="bingoCard" class="bingo-card"></div>
 </div>
 
-<div>
+<div class="container">
   <button id="newGameBtn">New Game</button>
   <div id="winMessage">You Win!</div>
-  <div id="timer">Time: <span id="time">0</span> seconds</div>
+  <div id="timer">Time: <span id="time">00</span></div>
+  <button id="themeButton">Dark/Light Mode</button>
 </div>
+<script src="js/db.js"></script>
 <script src="js/script.js"></script>
+
 </body>
 </html>
