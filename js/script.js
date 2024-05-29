@@ -1,6 +1,3 @@
-/* // Array of words to use on the bingo card
-const bingoWords = ["where are you from?","where are you?","are you singaporean?","are you [wrong nationality]?","is this [wrong country]?","is this singapore?","are you drunk?","are you high?","sussy first time chatter","is that a brompton?","is that an e-bike?","oolong Prayge blerp","rainer media share pls","peeguu says he's gay","peegu calls streamer gay","streamer gets lost","streamer says something sussy","can i come lols... (serious)","streamer gets distracted by booba","chat gets distracted by booba","streamer drinks coffee","streamer eats meal","streamer eats snack","stream LSD","stream disconnects","streamer toilet break","streamer mutes audio","gintings adds a new emote","streamer buys something cute","streamer buys something funny","gacha","streamer speaks mandarin","streamer flexes muscles","streamer talks about gym","streamer says samsung s24 ultra","streamer sees tom and jerry","streamer sees gundam","streamer says she's not drinking alcohol","streamer drinks alcohol"]; */
-
 // Function to shuffle an array
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -9,33 +6,7 @@ function shuffle(array) {
   }
 }
 
-// Timer variables
-let timerInterval;
-let secondsElapsed = 0;
 let gameWon = false;
-
-function startTimer() {
-  clearInterval(timerInterval); // Clear any existing intervals
-  secondsElapsed = 0;
-  timerInterval = setInterval(() => {
-    if (!gameWon) {
-      secondsElapsed++;
-      let hours = Math.floor(secondsElapsed / 3600);
-      let minutes = Math.floor((secondsElapsed % 3600) / 60);
-      let seconds = secondsElapsed % 60;
-
-      // Format time as H:MM:SS if hours > 0, otherwise MM:SS
-      let timeString = '';
-      if (hours > 0) {
-        timeString += `${hours}:`;
-      }
-      timeString += `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-      document.getElementById('time').textContent = timeString;
-    }
-  }, 1000);
-}
-
 
 // Function to check for a win
 function checkForWin() {
@@ -57,6 +28,44 @@ function checkForWin() {
   return lines.some(line => line.every(cell => cell.classList.contains('crossed')));
 }
 
+const winMessage = document.getElementById('winMessage');
+
+ function showWinMessage() {
+	const winImg = document.createElement('img');
+	let winGif = [...winImages];
+	shuffle(winGif);
+      winImg.src = winGif[0];
+      winImg.alt = 'Wolfsbanee';
+	  winImg.style.height = '256px';
+	  winImg.style.marginBottom = '140px';
+	  
+  const winMessage = document.getElementById('winMessage');
+  winMessage.innerHTML = ''; // Clear any existing content
+
+  const bingoText = document.createElement('div');
+  bingoText.textContent = 'BINGO!';
+  bingoText.style.marginBottom = '25px'; // Add some space between text and image
+  
+  const closeText = document.createElement('div');
+  closeText.id = 'closeText';
+  closeText.textContent = '(click to close)';
+
+  winMessage.appendChild(bingoText); // Append the text to the winMessage element
+  winMessage.appendChild(winImg); // Append the image to the winMessage element
+  winMessage.appendChild(closeText);
+	document.getElementById('winMessage').addEventListener('click', function() {
+		winMessage.style.display = 'none';
+	});
+  
+  winMessage.style.display = 'block';
+/*    setTimeout(() => {
+    winMessage.style.opacity = '0';
+    setTimeout(() => {
+      winMessage.style.display = 'none';
+      winMessage.style.opacity = '1'; // Reset opacity for future display
+    }, 1000); // Wait for the fade out transition to complete
+  }, 2500); // Wait for 5 seconds before starting the fade out  */
+ }
 
 // Function to handle cell click
 function handleCellClick(event) {
@@ -64,8 +73,7 @@ function handleCellClick(event) {
     event.target.classList.toggle('crossed');
     if (checkForWin()) {
       gameWon = true;
-      document.getElementById('winMessage').style.display = 'block';
-      clearInterval(timerInterval); // Stop the timer
+      showWinMessage();
     }
   }
 }
@@ -79,7 +87,7 @@ function generateBingoCard() {
   cardWords[12] = ""; // Center space is a free space
 
   const bingoCardElement = document.getElementById('bingoCard');
-  bingoCardElement.innerHTML = ''; // Clear previous card
+  bingoCardElement.innerHTML = '<div id="winMessage"></div>'; // Clear previous card
 
   // Create bingo cells
   cardWords.forEach((word, index) => {
@@ -93,7 +101,7 @@ function generateBingoCard() {
     const img = document.createElement('img');
 	let freeImg = [...bingoImages];
 	shuffle(freeImg);
-      img.src = freeImg[0]; // Replace with your image path
+      img.src = freeImg[0];
       img.alt = 'Wolfsbanee';
 	  img.style.width = '100%';
 		img.style.height = '100%';
@@ -109,10 +117,10 @@ function generateBingoCard() {
 // Function to reset the game
 function resetGame() {
 	gameWon = false;
-  document.getElementById('winMessage').style.display = 'none';
-  document.getElementById('time').textContent = "00:00";
+	  
   generateBingoCard();
-  startTimer();
+  winMessage.style.display = 'none';
+
 }
 
 // Add event listener to the new game button
@@ -123,4 +131,4 @@ document.getElementById('themeButton').addEventListener('click', function() {
 });
 
 // Generate the card when the script loads
-resetGame(); // This will also start the timer
+resetGame();
