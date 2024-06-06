@@ -5,8 +5,36 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
 let gameWon = false;
+
+let totalSeconds = 0;
+let timerInterval;
+
+function setTime() {
+    ++totalSeconds;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    document.getElementById('gameTimer').innerHTML = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function startTimer() {
+    timerInterval = setInterval(setTime, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    totalSeconds = 0;
+	document.getElementById('gameTimer').innerHTML = '00:00';
+}
+
+
+
+
 
 // Function to check for a win
 function checkForWin() {
@@ -37,7 +65,7 @@ const winMessage = document.getElementById('winMessage');
       winImg.src = winGif[0];
       winImg.alt = 'Wolfsbanee';
 	  winImg.style.height = '256px';
-	  winImg.style.marginBottom = '140px';
+	  winImg.style.marginBottom = '25px';
 	  
   const winMessage = document.getElementById('winMessage');
   winMessage.innerHTML = ''; // Clear any existing content
@@ -48,23 +76,35 @@ const winMessage = document.getElementById('winMessage');
   
   const closeText = document.createElement('div');
   closeText.id = 'closeText';
-  closeText.textContent = '(click to close)';
+  closeText.textContent = 'X';
 
   winMessage.appendChild(bingoText); // Append the text to the winMessage element
   winMessage.appendChild(winImg); // Append the image to the winMessage element
   winMessage.appendChild(closeText);
-	document.getElementById('winMessage').addEventListener('click', function() {
-		winMessage.style.display = 'none';
-	});
+  
+      // Apply CSS transition for fade-in effect
+    winMessage.style.opacity = '0';
+    winMessage.style.transition = 'opacity 0.5s';
+
+    // Trigger reflow and then set opacity to 1 for fade-in effect
+    setTimeout(() => {
+        winMessage.style.opacity = '1';
+    }, 0);
+	
+	
+	document.getElementById('closeText').addEventListener('click', function() {
+    // Apply CSS transition for fade-out effect with 0.5 second duration
+    winMessage.style.transition = 'opacity 0.5s';
+    winMessage.style.opacity = '0';
+
+    // After the fade-out animation completes, hide the winMessage element
+    setTimeout(() => {
+        winMessage.style.display = 'none';
+    }, 500); // Wait for 0.5 seconds (500 milliseconds) before hiding the element
+});
+
   
   winMessage.style.display = 'block';
-/*    setTimeout(() => {
-    winMessage.style.opacity = '0';
-    setTimeout(() => {
-      winMessage.style.display = 'none';
-      winMessage.style.opacity = '1'; // Reset opacity for future display
-    }, 1000); // Wait for the fade out transition to complete
-  }, 2500); // Wait for 5 seconds before starting the fade out  */
  }
 
 // Function to handle cell click
@@ -74,6 +114,7 @@ function handleCellClick(event) {
     if (checkForWin()) {
       gameWon = true;
       showWinMessage();
+	  stopTimer();
     }
   }
 }
@@ -116,8 +157,9 @@ function generateBingoCard() {
 
 // Function to reset the game
 function resetGame() {
-	gameWon = false;
-	  
+	resetTimer();
+	startTimer();
+  gameWon = false;
   generateBingoCard();
   winMessage.style.display = 'none';
 
@@ -125,6 +167,7 @@ function resetGame() {
 
 // Add event listener to the new game button
 document.getElementById('newGameBtn').addEventListener('click', resetGame);
+
 
 document.getElementById('themeButton').addEventListener('click', function() {
   document.body.classList.toggle('light-theme');
